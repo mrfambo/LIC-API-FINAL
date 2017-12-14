@@ -49,8 +49,29 @@ var ValidateLicense = (LicenseKey) => {
     });
 }
 
+var TotalNumberOfLicenses = () =>{
+    return License.collection.count();
+}
+
+var TotalActivatedLicenses = () =>{
+    // return License.find({Status:"ACTIVATED"}).exec(function (err,results){
+    //     var count = results.length;
+    // })
+    return License.count({Status:"ACTIVATED"});
+}
+
+var TotalExpiredLicenses = () =>{
+    // return License.find({Status:"EXPIRED"}).exec(function (err,results){
+    //     var count = results.length;
+    // })
+    return License.count({Status:"EXPIRED"});
+}
+
 module.exports = {
     createLicense:createLicense,
     LicenseCount:LicenseCount,
+    TotalActivatedLicenses,
+    TotalNumberOfLicenses,
+    TotalExpiredLicenses,
     ValidateLicense
 }

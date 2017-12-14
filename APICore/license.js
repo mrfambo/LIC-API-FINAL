@@ -16,6 +16,7 @@ const express = require('express')
 const licenseModel = require('../Models/licenseModel')
 const bulkModel = require('../Models/bulkModel')
 
+let DUMMYAPIKEY = '123456789';
 var router = express.Router()
 
 function keyGenerator (id) {
@@ -37,8 +38,9 @@ function getExpiry (days) {
 }
 
 router.post('/generateSingleLicense', (req, res) => {
-    //License Object to be saved in MongoDB
-    var LicenseObject = {
+    
+        //License Object to be saved in MongoDB
+        var LicenseObject = {
         //**TO BE FILLED
         LicenseKey:"",
         ExpiryDate:"",
@@ -56,26 +58,32 @@ router.post('/generateSingleLicense', (req, res) => {
         GeneratedFor:req.body.GeneratedFor,
         Log:[],
         Bulked:false
-    }
-    // 1. Generating License Key and Adding in LicenseObject
-    var a=0;
-    licenseModel
-        .LicenseCount()
-        .then(count => {
-            LicenseObject.LicenseKey = keyGenerator(count).toString(); //THIS GIVES LICENSE OBJECT
-            LicenseObject.ExpiryDate = getExpiry(req.body.AllowedPeriod);
-            licenseModel
-            .createLicense(LicenseObject)
-            .then(data => res.status(200).send(data))
-            .catch(err => {res.status(400).send({info:"couldn't complete"});console.log(err)})
-        })
+        }
+        // 1. Generating License Key and Adding in LicenseObject
+        var a=0;
+        licenseModel
+            .LicenseCount()
+            .then(count => {
+                LicenseObject.LicenseKey = keyGenerator(count).toString(); //THIS GIVES LICENSE OBJECT
+                LicenseObject.ExpiryDate = getExpiry(req.body.AllowedPeriod);
+                licenseModel
+                .createLicense(LicenseObject)
+                .then(data => res.status(200).send(data))
+                .catch(err => {res.status(400).send({info:"couldn't complete"});console.log(err)})
+            })
+    
+    
+        //res.status(400).send({info:"API KEY DOESN'T MATCH"})
+    
+    
 });
 
 
 router.post('/generateBulkLicense', (req, res) => {
-
-    //License Object to be saved in MongoDB
-    var LicenseObject = {
+    if(req.body.APIKEY == DUMMYAPIKEY )
+    {
+        //License Object to be saved in MongoDB
+        var LicenseObject = {
         //**TO BE FILLED
         LicenseKey:"",
         ExpiryDate:"",
@@ -142,15 +150,25 @@ router.post('/generateBulkLicense', (req, res) => {
                     .catch(err => {res.status(400).send({info:"couldn't complete"});console.log(err)})
                 })
         })
+    }
+    else
+    {
+        res.status(400).send({info:"API KEY DOESN'T MATCH"});
+    }
+    
 });
 
 router.post('/validate',(req,res)=>{
+
     console.log("VALIDATION");
     licenseModel
         .ValidateLicense(req.body.LicenseKey)
         .then(data => res.status(200).send(data))
         .catch(err => {res.status(400).send({info:"couldn't complete"});console.log(err)})
-})
+});
+
+
+
 
 
 module.exports = router
