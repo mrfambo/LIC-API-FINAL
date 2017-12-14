@@ -44,8 +44,12 @@ app.get('/alimuqaddas',(req,res)=>{
     res.status(200).json({message:"Ali Muqaddas oh wao :: He is the Creator of CueClash"})
 })
 
-app.get('/*',(req,res)=>{
+app.get('/',(req,res)=>{
     res.sendFile(path.join(__dirname,'src/index.html'));
+})
+
+app.get('/download/:bulkCode',(req,res)=>{
+  res.sendFile(path.join(__dirname,'/BulkLicenses-'+req.params.bulkCode+'.xlsx'));
 })
 
 app.listen(config.PORT, () => console.log("Running on LocalHost:"+config.PORT));

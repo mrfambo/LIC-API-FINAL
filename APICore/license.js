@@ -84,7 +84,7 @@ function getExcelFile(licensesArray,bulkcode){
     console.log("INTO EXCEL")
     var workbook = excelbuilder.createWorkbook('./', 'BulkLicenses-'+bulkcode.toString()+'.xlsx');
     //var sheet1 = workbook.createSheet('sheet1',req.body.numberOfLicences+3 ,2 );
-    var sheet1 = workbook.createSheet('sheet1',150 ,150 );
+    var sheet1 = workbook.createSheet('sheet1',2000 ,2000 );
     sheet1.set(1, 1, 'Bulk License Sheet');
     let promisesArray = [];
     for (let i=0;i<=licensesArray.length;i++)
@@ -169,7 +169,7 @@ router.post('/generateBulkLicense', (req, res) => {
                         }
                         Promise.all(pArr).then(() => { // wait for all promises to resolve
                             getExcelFile(licensesArray,LicenseObject.BulkGroupCode)
-                            res.status(200).send({info:"Done Releasing Bulk Licenses!!!",licensesArray:licensesArray,bulkNumber:count+1})
+                            res.status(200).send({info:"Done Releasing Bulk Licenses!!!",licensesArray:licensesArray,bulkNumber:LicenseObject.BulkGroupCode})
                         });
                     })
                     .catch(err => {res.status(400).send({info:"couldn't complete"});console.log(err)})
