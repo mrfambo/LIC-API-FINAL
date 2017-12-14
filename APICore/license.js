@@ -12,6 +12,8 @@
 // 12. Log
 // 13. Bulked
 
+var excelbuilder = require('msexcel-builder');
+
 const express = require('express')
 const licenseModel = require('../Models/licenseModel')
 const bulkModel = require('../Models/bulkModel')
@@ -78,6 +80,28 @@ router.post('/generateSingleLicense', (req, res) => {
     
 });
 
+function getExcelFile(licensesArray,bulkcode){
+    console.log("INTO EXCEL")
+    var workbook = excelbuilder.createWorkbook('./', 'BulkLicenses-'+bulkcode.toString()+'.xlsx');
+    //var sheet1 = workbook.createSheet('sheet1',req.body.numberOfLicences+3 ,2 );
+    var sheet1 = workbook.createSheet('sheet1',150 ,150 );
+    sheet1.set(1, 1, 'Bulk License Sheet');
+    let promisesArray = [];
+    for (let i=0;i<=licensesArray.length;i++)
+    {
+        promisesArray.push(
+            sheet1.set(1, i+2, licensesArray[i])
+        )
+    }
+    Promise.all(promisesArray).then(()=>{
+        workbook.save(function(err){
+            if (err)
+              throw err;
+            else
+              console.log('congratulations, your workbook created');
+          });
+    })
+}
 
 router.post('/generateBulkLicense', (req, res) => {
     if(req.body.APIKEY == DUMMYAPIKEY )
@@ -130,7 +154,7 @@ router.post('/generateBulkLicense', (req, res) => {
                         let allPromises = [];
                         let i=0;
                         const pArr = [];
-                        for (i=0;i<=req.body.numberOfLicences;i++)
+                        for (i=0;i<req.body.numberOfLicences;i++)
                         {
                             LicenseObject.LicenseKey = keyGenerator(count+i).toString(); //THIS GIVES LICENSE OBJECT
                             LicenseObject.ExpiryDate = getExpiry(req.body.AllowedPeriod);
@@ -144,6 +168,7 @@ router.post('/generateBulkLicense', (req, res) => {
                             )
                         }
                         Promise.all(pArr).then(() => { // wait for all promises to resolve
+                            getExcelFile(licensesArray,LicenseObject.BulkGroupCode)
                             res.status(200).send({info:"Done Releasing Bulk Licenses!!!",licensesArray:licensesArray,bulkNumber:count+1})
                         });
                     })
