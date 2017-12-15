@@ -67,11 +67,16 @@ var TotalExpiredLicenses = () =>{
     return License.count({Status:"EXPIRED"});
 }
 
+var ListOfLicenses = () =>{
+    return License.find({});
+}
+
 module.exports = {
     createLicense:createLicense,
     LicenseCount:LicenseCount,
     TotalActivatedLicenses,
     TotalNumberOfLicenses,
     TotalExpiredLicenses,
-    ValidateLicense
+    ValidateLicense,
+    ListOfLicenses
 }

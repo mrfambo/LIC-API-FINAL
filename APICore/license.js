@@ -192,6 +192,23 @@ router.post('/validate',(req,res)=>{
         .catch(err => {res.status(400).send({info:"couldn't complete"});console.log(err)})
 });
 
+router.post('/validateForApp',(req,res)=>{
+
+    console.log("VALIDATION For App");
+    licenseModel
+        .ValidateLicense(req.body.LicenseKey)
+        .then(data => res.status(200).send(data))
+        .catch(err => {res.status(400).send({info:"couldn't complete"});console.log(err)})
+});
+
+router.get('/list',(req,res)=>{
+    console.log("LISTING");
+    licenseModel
+        .ListOfLicenses()
+        .then(data => res.status(200).send(data))
+        .catch(err => {res.status(400).send({info:"couldn't complete"});console.log(err)})
+});
+
 
 
 
