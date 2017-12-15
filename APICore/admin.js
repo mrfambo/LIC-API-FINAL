@@ -37,7 +37,7 @@ router.get('/listofbulks',(req,res)=>{
         .ListBulk()
         .then(data => res.status(200).send(data))
         .catch(err => {res.status(400).send({err:err});console.log(err)})
-})
+});
 
 router.post('/auth',(req,res) => {
     adminModel
@@ -45,5 +45,14 @@ router.post('/auth',(req,res) => {
         .then(data => res.status(200).send(data))
         .catch(err => {res.status(400).send({err:err});console.log(err)})
 });
+
+router.get('/getusers',(req,res)=>{
+    bulkModal
+        .getUsers()
+        .then(data => res.status(200).send(data))
+        .catch(err => {res.status(400).send({err:err});console.log(err)})
+})
+
+
 
 module.exports = router;

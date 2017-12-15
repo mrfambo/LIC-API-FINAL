@@ -37,8 +37,13 @@ var BulkCount = () => {
     return Bulk.count({}); 
 }
 
+var getUsers = () =>{
+    return Bulk.find().distinct('GeneratedFor');
+}
+
 module.exports = {
     createBulk:createBulk,
     BulkCount:BulkCount,
-    ListBulk
+    ListBulk,
+    getUsers
 }
