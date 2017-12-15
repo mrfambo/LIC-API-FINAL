@@ -1,6 +1,7 @@
 const express = require('express')
 const adminModel = require('../Models/adminModel')
 const licenseModal = require('../Models/licenseModel');
+const bulkModal = require('../Models/bulkModel')
 
 var router = express.Router()
 
@@ -30,6 +31,13 @@ router.get('/stats',(req,res) =>{
     }).catch(err => {res.status(400).send({err:err});console.log(err)})
 
 });
+
+router.get('/listofbulks',(req,res)=>{
+    bulkModal
+        .ListBulk()
+        .then(data => res.status(200).send(data))
+        .catch(err => {res.status(400).send({err:err});console.log(err)})
+})
 
 router.post('/auth',(req,res) => {
     adminModel

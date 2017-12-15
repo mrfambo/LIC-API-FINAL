@@ -6,6 +6,7 @@ var schema = new Schema({
     GeneratedFor: {type: String, required:true},
     Date: {type: Date, default: Date.now},
     BulkGroupCode: {type: String},
+    numberOfLicences:{type:String},
     AllowedPeriod:{type: String, required:true},
     Status:{type: String, required:true},
     Log:Array
@@ -21,9 +22,14 @@ var createBulk = (data) => {
         BulkGroupCode:data.BulkGroupCode,
         AllowedPeriod:data.AllowedPeriod,
         Status:data.Status,
+        numberOfLicences:data.numberOfLicences,
         Log:data.Log
     })
     return bulk.save(bulk);
+}
+
+var ListBulk = () => {
+    return Bulk.find({})
 }
 
 var BulkCount = () => {
@@ -33,5 +39,6 @@ var BulkCount = () => {
 
 module.exports = {
     createBulk:createBulk,
-    BulkCount:BulkCount
+    BulkCount:BulkCount,
+    ListBulk
 }

@@ -84,7 +84,7 @@ function getExcelFile(licensesArray,bulkcode){
     console.log("INTO EXCEL")
     var workbook = excelbuilder.createWorkbook('./', 'BulkLicenses-'+bulkcode.toString()+'.xlsx');
     //var sheet1 = workbook.createSheet('sheet1',req.body.numberOfLicences+3 ,2 );
-    var sheet1 = workbook.createSheet('sheet1',2000 ,2000 );
+    var sheet1 = workbook.createSheet('sheet1',150 ,150 );
     sheet1.set(1, 1, 'Bulk License Sheet');
     let promisesArray = [];
     for (let i=0;i<=licensesArray.length;i++)
@@ -134,6 +134,7 @@ router.post('/generateBulkLicense', (req, res) => {
         BulkGroupCode:"",
         AllowedPeriod:req.body.AllowedPeriod,
         Status:"ACTIVE",
+        numberOfLicences:req.body.numberOfLicences,
         Log:[]
 
     }
@@ -144,6 +145,7 @@ router.post('/generateBulkLicense', (req, res) => {
         .BulkCount()
         .then(count => {
             LicenseObject.BulkGroupCode = count+1;
+            bulkObject.BulkGroupCode = count+1;
             bulkModel
                 .createBulk(bulkObject)
                 .then(data => {
@@ -207,6 +209,13 @@ router.get('/list',(req,res)=>{
         .ListOfLicenses()
         .then(data => res.status(200).send(data))
         .catch(err => {res.status(400).send({info:"couldn't complete"});console.log(err)})
+});
+
+router.get('/listbybulkcode/:BulkGroupCode',(req,res)=>{
+    console.log("LISTINNG BY BULK");
+    licenseModel.ListOfLicensesByBulkCode(req.params.BulkGroupCode)
+    .then(data => res.status(200).send(data))
+    .catch(err => {res.status(400).send({info:"couldn't complete"});console.log(err)})
 });
 
 

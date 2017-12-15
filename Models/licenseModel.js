@@ -71,6 +71,10 @@ var ListOfLicenses = () =>{
     return License.find({});
 }
 
+var ListOfLicensesByBulkCode = (BulkGroupCode) =>{
+    return License.find({BulkGroupCode});
+}
+
 module.exports = {
     createLicense:createLicense,
     LicenseCount:LicenseCount,
@@ -78,5 +82,6 @@ module.exports = {
     TotalNumberOfLicenses,
     TotalExpiredLicenses,
     ValidateLicense,
-    ListOfLicenses
+    ListOfLicenses,
+    ListOfLicensesByBulkCode
 }
