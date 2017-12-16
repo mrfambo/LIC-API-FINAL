@@ -194,6 +194,16 @@ router.post('/validate',(req,res)=>{
         .catch(err => {res.status(400).send({info:"couldn't complete"});console.log(err)})
 });
 
+router.post('/activate',(req,res)=>{
+
+    console.log("Activation");
+    let expiryDate = getExpiry(req.body.AllowedPeriod);
+    licenseModel
+        .ActivateLicense(req.body.LicenseKey,expiryDate)
+        .then(data => res.status(200).send(data))
+        .catch(err => {res.status(400).send({info:"couldn't complete"});console.log(err)})
+});
+
 router.post('/validateForApp',(req,res)=>{
 
     console.log("VALIDATION For App");

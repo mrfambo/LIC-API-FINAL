@@ -75,6 +75,10 @@ var ListOfLicensesByBulkCode = (BulkGroupCode) =>{
     return License.find({BulkGroupCode});
 }
 
+var ActivateLicense = (LicenseKey,NewExpiryDate) =>{
+    return License.findOneAndUpdate({LicenseKey:LicenseKey},{$set:{Status:'ACTIVATED',ExpiryDate:NewExpiryDate}});
+}
+
 module.exports = {
     createLicense:createLicense,
     LicenseCount:LicenseCount,
@@ -83,5 +87,6 @@ module.exports = {
     TotalExpiredLicenses,
     ValidateLicense,
     ListOfLicenses,
-    ListOfLicensesByBulkCode
+    ListOfLicensesByBulkCode,
+    ActivateLicense
 }
