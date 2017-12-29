@@ -44,7 +44,7 @@ var LicenseCount = () => {
 
 var ValidateLicense = (LicenseKey) => {
     console.log("VALIDATION CORE",LicenseKey)
-    return License.find({
+    return License.findOne({
         LicenseKey
     });
 }

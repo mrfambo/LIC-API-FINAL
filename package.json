@@ -9,7 +9,8 @@
     "express": "^4.16.2",
     "mongoose": "^4.12.1",
     "morgan": "^1.9.0",
-    "msexcel-builder": "0.0.2"
+    "msexcel-builder": "0.0.2",
+    "unoconv": "^0.1.2"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

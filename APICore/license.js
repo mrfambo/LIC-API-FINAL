@@ -186,11 +186,20 @@ router.post('/generateBulkLicense', (req, res) => {
 });
 
 router.post('/validate',(req,res)=>{
-
+    console.log(req.body);
     console.log("VALIDATION");
     licenseModel
         .ValidateLicense(req.body.LicenseKey)
-        .then(data => res.status(200).send(data))
+        .then(data => {console.log(data);res.status(200).send(data);})
+        .catch(err => {res.status(400).send({info:"couldn't complete"});console.log(err)})
+});
+
+router.post('/validateforApp',(req,res)=>{
+    console.log(req.body);
+    console.log("VALIDATION");
+    licenseModel
+        .ValidateLicense(req.body.LicenseKey)
+        .then(data => {console.log(data);res.status(200).send(data.AllowedPeriod);})
         .catch(err => {res.status(400).send({info:"couldn't complete"});console.log(err)})
 });
 

@@ -10,6 +10,8 @@ mongoose.Promise = require('bluebird');
 import config from './config';
 
 
+
+
 mongoose.connect(config.DATABASE_URL,(err,res)=>{
     if(err){
       console.log('Db Connection Failed'+err)
@@ -24,7 +26,7 @@ mongoose.connect(config.DATABASE_URL,(err,res)=>{
 
 const app = express();
 app.use(bodyParser.urlencoded({
-  extended: true
+  extended: false
 }));
 app.use(bodyParser.json());
 app.use(function(req, res, next) {

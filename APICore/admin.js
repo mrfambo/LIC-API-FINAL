@@ -28,7 +28,7 @@ router.get('/stats',(req,res) =>{
                 res.status(200).send(resObject);
             }).catch(err => {res.status(400).send({err:err});console.log(err)})
         }).catch(err => {res.status(400).send({err:err});console.log(err)})
-    }).catch(err => {res.status(400).send({err:err});console.log(err)})
+    }).catch(err => {res.status(40).send({err:err});console.log(err)})
 
 });
 
